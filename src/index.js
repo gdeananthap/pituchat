@@ -5,9 +5,9 @@ import './index.css';
 import theme from './theme';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from './pages/login';
-import Home from './pages/Home';
-import Shop from './pages/Shop';
-import Error from './pages/Error'
+import Home from './pages/home';
+import Shop from './pages/shop';
+import Error from './pages/error'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
