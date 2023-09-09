@@ -10,7 +10,7 @@ const theme = extendTheme({
     black: "#000",
     white: "#FFF",
     blue: {
-      main: "#FAFAFA",
+      main: "#0C4AC0",
       surface: "#CEDBF2",
     },
     green: {
@@ -55,7 +55,7 @@ const theme = extendTheme({
     lg: "1.125rem",
     xl: "1.25rem",
     "2xl": "1.5rem",
-    "3xl": "1.875rem",
+    "3xl": "1.75rem",
     "4xl": "2.25rem",
     "5xl": "3rem",
     "6xl": "3.75rem",
@@ -138,6 +138,9 @@ const theme = extendTheme({
     max: 'max-content',
     min: 'min-content',
     full: '100%',
+    half: '50%',
+    fullHeight: '100vh',
+    fullWidth: '100vw',
     '3xs': '14rem',
     '2xs': '16rem',
     xs: '20rem',
@@ -157,6 +160,8 @@ const theme = extendTheme({
       md: '768px',
       lg: '1024px',
       xl: '1280px',
+      '2xl': '1440px',
+      '3xl': '1900px',
     },
   },
 });
