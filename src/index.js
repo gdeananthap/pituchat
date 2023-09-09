@@ -19,9 +19,9 @@ root.render(
           {/* <Route path="/" element={<Layout />}> */}
             <Route index element={<Home />} />
             <Route path="shop" element={<Shop />} />
-            <Route path="*" element={<Error />} />
           </Route>
           <Route path="/login" element={<Login />} />
+          <Route path="*" element={<Error />} />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>
