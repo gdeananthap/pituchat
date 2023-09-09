@@ -3,8 +3,10 @@ import { Button, Center, Container, Flex, FormControl, FormLabel, Icon, IconButt
 import { IoMailSharp, IoEye } from "react-icons/io5";
 import { RiLockFill } from "react-icons/ri";
 import { BiSolidHide } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate()  
   const [showPassword, setShowPassword] = useState(false)
   const toggleShowPassword = () => {
     setShowPassword(!showPassword)
@@ -60,6 +62,7 @@ export default function Login() {
               backgroundColor='blue.main'
               _hover={{backgroundColor:'blue.main'}}
               mt='2'
+              onClick={() => navigate('/')}
             >
               Masuk
             </Button>
