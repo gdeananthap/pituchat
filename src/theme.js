@@ -12,6 +12,7 @@ const theme = extendTheme({
     blue: {
       main: "#0C4AC0",
       surface: "#CEDBF2",
+      'main40': "rgba(12, 74, 192, 0.4)"
     },
     green: {
       40: "#33995E",
@@ -49,6 +50,7 @@ const theme = extendTheme({
     heading: "Lato, sans-serif",
   },
   fontSizes: {
+    '2xs': "0.625rem",
     xs: "0.75rem",
     sm: "0.875rem",
     md: "1rem",
@@ -137,6 +139,10 @@ const theme = extendTheme({
   sizes: {
     max: 'max-content',
     min: 'min-content',
+    underTopbar: 'calc(100% - 4.5rem)',
+    topbar:'4.5rem',
+    sidebar:'7.1875rem',
+    nextSidebar: 'calc(100% - 7.1875rem)',
     full: '100%',
     half: '50%',
     fullHeight: '100vh',
