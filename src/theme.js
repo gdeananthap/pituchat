@@ -1,4 +1,5 @@
 import { extendTheme } from '@chakra-ui/react'
+import { checkboxTheme } from './component/checkbox';
 
 const theme = extendTheme({
   config: {
@@ -12,7 +13,8 @@ const theme = extendTheme({
     blue: {
       main: "#0C4AC0",
       surface: "#CEDBF2",
-      'main40': "rgba(12, 74, 192, 0.4)"
+      'main40': "rgba(12, 74, 192, 0.4)",
+      600: "#0C4AC0"
     },
     green: {
       40: "#33995E",
@@ -44,6 +46,9 @@ const theme = extendTheme({
       10: "#E5E5E5",
       20: "#CCCCCC",
     }
+  },
+  components: { 
+    Checkbox: checkboxTheme,
   },
   fonts: {
     body: "Lato, sans-serif",
@@ -143,6 +148,12 @@ const theme = extendTheme({
     topbar:'4.5rem',
     sidebar:'7.1875rem',
     nextSidebar: 'calc(100% - 7.1875rem)',
+    chatList: '22.4375rem',
+    chatWindow: 'calc(100% - 22.4375rem)',
+    filterMenu: '12.3125rem',
+    filterMenuMin: '12.3125rem',
+    chatOnly: 'calc(100% - 4rem)',
+    maxChatLabel: 'calc(100% - 0.75rem)',
     full: '100%',
     half: '50%',
     fullHeight: '100vh',
