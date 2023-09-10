@@ -51,7 +51,7 @@ export const needToReply = [
     },
     preview: 'Untuk kaos kaki motif stripes warna pink nya akan direstock kapan yaa? Thankss',
     time: 'Today',
-    unread: 10,
+    unread: 3,
   },
   {
     id: 3,
@@ -75,7 +75,7 @@ export const needToReply = [
     id: 4,
     user: {
       id: '5',
-      name: 'Lorem Ipsum Title',
+      name: 'Christina Lee',
       avatar: 'avatar4.jpg',
     },
     shop: {
