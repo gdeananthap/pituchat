@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Center, Checkbox, Circle, Flex, HStack, Icon, IconButton, Image, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList, Tab, TabList, TabPanel, TabPanels, Tabs, Text, } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
+import { Box, Center, Checkbox, Circle, Flex, HStack, Icon, IconButton, Image, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList, Tab, TabList, TabPanel, TabPanels, Tabs, Text, } from '@chakra-ui/react'
 import Tag from '../component/tag';
 import { BiSearch, BiSlider } from "react-icons/bi";
 import { MdInfoOutline, MdClose } from "react-icons/md";
@@ -20,7 +20,7 @@ export default function Home() {
   const [selectedChat, setSelectedChat] = useState(null)
   const [chatDetail, setChatDetail] = useState(null)
   const [showChatDetail, setShowChatDetail] = useState(false)
-
+  const [userId, setUserId] = useState(null)
   const [showSearchChat, setShowSearchChat] = useState(false)
   const [selectedFilter, setSelectedFilter] = useState([]);
 
@@ -66,6 +66,11 @@ export default function Home() {
   const countUnreadMessages = (messages) => {
     return messages.reduce((totalUnread, message) => totalUnread + message.unread, 0);
   };
+
+  useEffect(() => {
+    const userId = localStorage.getItem('userId')
+    if(userId) setUserId(userId)
+  }, []);
 
   return (
     <Flex w='nextSidebar' h='full' backgroundColor='white'>
@@ -228,7 +233,7 @@ export default function Home() {
         </Tabs>
       </Flex>
       { selectedChat != null ?
-        <Flex w='chatWindow' h='full' backgroundColor='white' direction='row' align='flex-start' justify='flex-start' >
+        <Flex w='chatWindow' h='full' backgroundColor='white' direction='row' align='flex-start' justify='flex-start'>
           <Flex w={showChatDetail ? 'chatWindowOnly' : 'full'} h='full' direction='column' align='flex-start' justify='flex-start'>
             <Flex w='full' h='topbar' backgroundColor='snow.lightest' align='center' justify='space-between' px='5'>
               <Text fontSize='md' fontWeight='bold' color='text.main'>{chatDetail.user.name}</Text>
@@ -254,8 +259,36 @@ export default function Home() {
                 />
               </Flex>
             </Flex>
-            <Flex w='full' h='chatContainer' backgroundColor='blue.surface' direction='column' align='flex-end' pl='12' pr='10'>
-
+            <Flex w='full' h='chatContainer' maxH='chatContainer' backgroundColor='blue.surface' direction='column' align='flex-start' justify='flex-end' pl='12' pr='10' py='7.125rem' gap='3.75rem' overflow='scroll'>
+              {chatDetail.chats.map((chat, index) => (
+                <>
+                { chat.id === userId ? 
+                  <Flex w='half' alignSelf='flex-end' align='flex-end' justify='flex-end' gap='0.5' direction='column'>
+                    <Box minW='17.75rem' px='3' py='2.5' bgColor='blue.main' borderRadius='1.5rem 1.5rem 0 1.5rem'>
+                      <Text fontSize='sm' fontWeight='normal' color='white'>{chat.chat}</Text>
+                    </Box>
+                    <Text fontSize='xs' fontWeight='normal' color='zendesk.lightOnBackgroundDetail' mr='3'>{chat.detail}</Text>
+                  </Flex>
+                  :
+                  <Flex w='half' alignSelf='flex-start' align='flex-start' justify='flex-start' gap='0.5' direction='column'>
+                    <Text fontSize='xs' fontWeight='normal' color='zendesk.lightOnBackgroundDetail' ml='12'>{chatDetail.user.name}</Text>
+                    <Flex w='full' gap='1'>
+                      <Image
+                        borderRadius='full'
+                        boxSize='8'
+                        src={chatDetail.user.avatar}
+                        alt={chatDetail.user.name}
+                        mt='2'
+                      />
+                      <Box px='3' py='2.5' bgColor='white' borderRadius='1.5rem 1.5rem 1.5rem 0'>
+                        <Text fontSize='sm' fontWeight='normal' color='black'>{chat.chat}</Text>
+                      </Box>
+                    </Flex>
+                    <Text fontSize='xs' fontWeight='normal' color='zendesk.lightOnBackgroundDetail' ml='12'>{chat.detail}</Text>
+                  </Flex>
+                }
+                </>
+              ))}
             </Flex >
             <Flex w='full' h='16' backgroundColor='white' align='center' gap='2.5' px='0.375rem'>
               <IconButton

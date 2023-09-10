@@ -35,6 +35,8 @@ const theme = extendTheme({
       light: "#FFFFFF",
       main: "#000",
       lightOnBackground: "rgba(0, 0, 0, 0.55)",
+      lightOnBackgroundDetail: "rgba(0, 0, 0, 0.65)",
+      inboundMessage: '#F4F6F8',
     },
     text: {
       main: "#1A1A1A",
@@ -154,7 +156,7 @@ const theme = extendTheme({
     chatWindow: 'calc(100% - 22.4375rem)',
     chatDetail: '14.9375rem',
     chatWindowOnly: 'calc(100% - 14.9375rem)',
-    chatContainer: 'calc(100% - 9.5rem)',
+    chatContainer: 'calc(100% - 8.5rem)',
     filterMenu: '12.3125rem',
     filterMenuMin: '12.3125rem',
     chatOnly: 'calc(100% - 4rem)',
