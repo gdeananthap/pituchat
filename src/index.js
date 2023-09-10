@@ -8,6 +8,7 @@ import Login from './pages/login';
 import Home from './pages/home';
 import Shop from './pages/shop';
 import Error from './pages/error'
+import Layout from './component/layout';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,8 +16,7 @@ root.render(
     <ChakraProvider theme={theme}>
       <BrowserRouter>
         <Routes>
-          <Route path="/">
-          {/* <Route path="/" element={<Layout />}> */}
+          <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="shop" element={<Shop />} />
           </Route>
