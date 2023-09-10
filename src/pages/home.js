@@ -13,7 +13,7 @@ export default function Home() {
   ];
   const [tabIndex, setTabIndex] = useState(0)
   const [chats, setChats] = useState(needToReply)
-  const [selectedChat, setSelectedChat] = useState()
+  const [selectedChat, setSelectedChat] = useState(null)
 
   const [showSearchChat, setShowSearchChat] = useState(false)
   const [selectedFilter, setSelectedFilter] = useState([]);
@@ -36,7 +36,7 @@ export default function Home() {
 
   const toggleTab = (id) => {
     setTabIndex(id)
-    setSelectedChat()
+    setSelectedChat(null)
     if(id===0){
       setChats(needToReply)
     }else if(id===1){
@@ -210,7 +210,7 @@ export default function Home() {
           </TabPanels>
         </Tabs>
       </Flex>
-      { selectedChat ?
+      { selectedChat != null ?
         <Flex w='chatWindow' h='full' backgroundColor='blue.surface' direction='column' align='flex-start' justify='flex-start' >
         </Flex> 
         : 
