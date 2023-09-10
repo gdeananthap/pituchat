@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
-import { Center, Checkbox, Circle, Flex, Icon, IconButton, Image, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList, Tab, TabList, TabPanel, TabPanels, Tabs, Text, } from '@chakra-ui/react'
-import { BiSearch, BiSlider } from "react-icons/bi";
-import { allChat, needToReply, replied } from '../data/chat';
+import { Center, Checkbox, Circle, Flex, HStack, Icon, IconButton, Image, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList, Tab, TabList, TabPanel, TabPanels, Tabs, Text, } from '@chakra-ui/react'
 import Tag from '../component/tag';
+import { BiSearch, BiSlider } from "react-icons/bi";
+import { MdInfoOutline, MdClose } from "react-icons/md";
+import { CgAttachment } from "react-icons/cg";
+import { allChat, needToReply, replied } from '../data/chat';
+import { getChatById } from '../data/chatDetail';
+import { convertDate } from '../utils/convertDate';
 
 export default function Home() {
   const filterOptions = [
@@ -14,12 +18,18 @@ export default function Home() {
   const [tabIndex, setTabIndex] = useState(0)
   const [chats, setChats] = useState(needToReply)
   const [selectedChat, setSelectedChat] = useState(null)
+  const [chatDetail, setChatDetail] = useState(null)
+  const [showChatDetail, setShowChatDetail] = useState(false)
 
   const [showSearchChat, setShowSearchChat] = useState(false)
   const [selectedFilter, setSelectedFilter] = useState([]);
 
   const toggleShowSearchChat = () => {
     setShowSearchChat(!showSearchChat)
+  }
+
+  const toggleShowChatDetail = () => {
+    setShowChatDetail(!showChatDetail)
   }
 
   const toggleSelection = (option) => {
@@ -34,9 +44,16 @@ export default function Home() {
     setSelectedFilter([1, 2, 3, 4])
   };
 
+  const selectChat = (id) => {
+    setSelectedChat(id)
+    setChatDetail(getChatById(id))
+    setShowChatDetail(false)
+  };
+
   const toggleTab = (id) => {
     setTabIndex(id)
     setSelectedChat(null)
+    setChatDetail(null)
     if(id===0){
       setChats(needToReply)
     }else if(id===1){
@@ -69,7 +86,7 @@ export default function Home() {
                     h={5}
                   />
                 </InputLeftElement>
-                <Input type='email' placeholder='Cari' border='0' borderRadius='0.5rem' backgroundColor='snow.lightest' h='7' w='40' py='1' px='3'/>
+                <Input type='text' placeholder='Cari' border='0' borderRadius='0.5rem' backgroundColor='snow.lightest' h='7' w='40' py='1' px='3'/>
               </InputGroup>
               : 
               <IconButton
@@ -180,7 +197,7 @@ export default function Home() {
                     borderBottom='1px solid'
                     borderBottomColor='snow.lighter'
                     cursor='pointer'
-                    onClick={() => setSelectedChat(chat.id)}
+                    onClick={() => selectChat(chat.id)}
                   >
                     <Image
                       borderRadius='full'
@@ -211,7 +228,85 @@ export default function Home() {
         </Tabs>
       </Flex>
       { selectedChat != null ?
-        <Flex w='chatWindow' h='full' backgroundColor='blue.surface' direction='column' align='flex-start' justify='flex-start' >
+        <Flex w='chatWindow' h='full' backgroundColor='white' direction='row' align='flex-start' justify='flex-start' >
+          <Flex w={showChatDetail ? 'chatWindowOnly' : 'full'} h='full' direction='column' align='flex-start' justify='flex-start'>
+            <Flex w='full' h='topbar' backgroundColor='snow.lightest' align='center' justify='space-between' px='5'>
+              <Text fontSize='md' fontWeight='bold' color='text.main'>{chatDetail.user.name}</Text>
+              <Flex align='center' gap='5'>
+                <IconButton
+                  aria-label='search chat'
+                  backgroundColor='transparent'
+                  _hover={{backgroundColor:'transparent'}}
+                  icon={<Icon as={BiSearch} w={5} h={5} color='text.subdued' />}
+                  minW='0'
+                  w={5} 
+                  h={5}
+                />
+                <IconButton
+                  aria-label='open chat detail'
+                  backgroundColor='transparent'
+                  _hover={{backgroundColor:'transparent'}}
+                  icon={<Icon as={MdInfoOutline} w={5} h={5} color='text.subdued' />}
+                  onClick={toggleShowChatDetail}
+                  minW='0'
+                  w={5} 
+                  h={5}
+                />
+              </Flex>
+            </Flex>
+            <Flex w='full' h='chatContainer' backgroundColor='blue.surface'>
+
+            </Flex >
+            <Flex w='full' h='16' backgroundColor='white' align='center' gap='2.5' px='0.375rem'>
+              <IconButton
+                aria-label='Attach'
+                backgroundColor='transparent'
+                _hover={{backgroundColor:'transparent'}}
+                icon={<Icon as={CgAttachment} w={6} h={6} color='text.subdued' />}
+              />
+              <Input type='text' placeholder='Type a message' border='1px solid' borderColor='zendesk.lightOnBackground' borderRadius='1.25rem' backgroundColor='white' h='10' w='full'/>
+            </Flex >
+          </Flex>
+          { showChatDetail && 
+          <Flex w='chatDetail' h='full' backgroundColor='white' direction='column' align='flex-start' justify='flex-start' px='4' py='6' gap='1.3125rem'>
+            <IconButton
+              aria-label='close chat detail'
+              backgroundColor='transparent'
+              _hover={{backgroundColor:'transparent'}}
+              icon={<Icon as={MdClose} w={5} h={5} color='text.subdued' />}
+              onClick={toggleShowChatDetail}
+              minW='0'
+              w={5} 
+              h={5}
+              alignSelf='flex-end'
+              gap='1.3125rem'
+            />
+            <Flex w='full' direction='column' align='center' justify='center' gap='2.125rem'>
+              <Image
+                borderRadius='full'
+                boxSize='20'
+                src={chatDetail.user.avatar}
+                alt={chatDetail.user.name}
+              />
+              <Flex w='full' direction='column' align='center' justifyContent='center' gap='0.5625rem' mt='1'>
+                <Text fontSize='md' fontWeight='semibold' color='text.main'>{chatDetail.user.name}</Text>
+                <Text fontSize='xs' fontWeight='medium' color='text.subdued'>{chatDetail.user.shop.name}</Text>
+              </Flex>
+              <Tag icon={chatDetail.user.shop.icon} tag={chatDetail.user.tag}></Tag>
+            </Flex>
+            <Flex w='full' direction='column' align='flex-start' justify='flex-start' gap='0.75rem' mt='2.4375rem'>
+              <Text fontSize='sm' fontWeight='semibold' color='text.main'>About conversation</Text>
+              <HStack mt='0.5' spacing='3'>
+                <Text fontSize='xs' fontWeight='medium' color='text.main'>Created</Text>
+                <Text fontSize='xs' fontWeight='medium' color='text.subdued'>{convertDate(chatDetail.createdTime)}</Text>
+              </HStack>
+              <HStack spacing='3'>
+                <Text fontSize='xs' fontWeight='medium' color='text.main'>Created</Text>
+                <Text fontSize='xs' fontWeight='medium' color='text.subdued'>{convertDate(chatDetail.createdTime)}</Text>
+              </HStack>
+            </Flex>
+          </Flex>
+          }
         </Flex> 
         : 
         <Flex w='chatWindow' h='full' backgroundColor='snow.lightest' direction='column' align='center' justify='center' gap='10'>
@@ -222,7 +317,6 @@ export default function Home() {
           </Flex>
         </Flex>
       }
-
     </Flex>
   )
 }
