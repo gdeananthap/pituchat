@@ -36,6 +36,7 @@ export default function Home() {
 
   const toggleTab = (id) => {
     setTabIndex(id)
+    setSelectedChat()
     if(id===0){
       setChats(needToReply)
     }else if(id===1){
@@ -209,9 +210,19 @@ export default function Home() {
           </TabPanels>
         </Tabs>
       </Flex>
-      <Flex w='chatWindow' h='full' backgroundColor='blue.surface' direction='column' >
+      { selectedChat ?
+        <Flex w='chatWindow' h='full' backgroundColor='blue.surface' direction='column' align='flex-start' justify='flex-start' >
+        </Flex> 
+        : 
+        <Flex w='chatWindow' h='full' backgroundColor='snow.lightest' direction='column' align='center' justify='center' gap='10'>
+          <Image w='17.25rem' src={'noChat.png'} alt={'No Chat Chosen'}/>
+          <Flex direction='column' gap='0.6875rem' align='center' justifyContent='center'>
+            <Text fontSize='md' fontWeight='normal' color='text.main'>Tidak ada pesan terpilih</Text>
+            <Text fontSize='md' fontWeight='bold' color='text.main'>Pilih pesan untuk dibaca</Text>
+          </Flex>
+        </Flex>
+      }
 
-      </Flex>
     </Flex>
   )
 }
