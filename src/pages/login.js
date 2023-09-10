@@ -11,6 +11,12 @@ export default function Login() {
   const toggleShowPassword = () => {
     setShowPassword(!showPassword)
   }
+
+  const login = () => {
+    localStorage.setItem('userId', 3)
+    navigate('/')
+  }
+
   return (
     <Container h='fullHeight' maxW='container.3xl' bg='blue.surface' padding='0' >
       <SimpleGrid columns={2} bg='white' height='full'>
@@ -62,7 +68,7 @@ export default function Login() {
               backgroundColor='blue.main'
               _hover={{backgroundColor:'blue.main'}}
               mt='2'
-              onClick={() => navigate('/')}
+              onClick={() => login()}
             >
               Masuk
             </Button>

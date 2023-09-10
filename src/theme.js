@@ -1,4 +1,5 @@
 import { extendTheme } from '@chakra-ui/react'
+import { checkboxTheme } from './component/checkbox';
 
 const theme = extendTheme({
   config: {
@@ -12,7 +13,8 @@ const theme = extendTheme({
     blue: {
       main: "#0C4AC0",
       surface: "#CEDBF2",
-      'main40': "rgba(12, 74, 192, 0.4)"
+      'main40': "rgba(12, 74, 192, 0.4)",
+      600: "#0C4AC0"
     },
     green: {
       40: "#33995E",
@@ -32,6 +34,9 @@ const theme = extendTheme({
       lighticon: "#2F3941",
       light: "#FFFFFF",
       main: "#000",
+      lightOnBackground: "rgba(0, 0, 0, 0.55)",
+      lightOnBackgroundDetail: "rgba(0, 0, 0, 0.65)",
+      inboundMessage: '#F4F6F8',
     },
     text: {
       main: "#1A1A1A",
@@ -43,7 +48,11 @@ const theme = extendTheme({
       4: "#F5F5F5",
       10: "#E5E5E5",
       20: "#CCCCCC",
+      
     }
+  },
+  components: { 
+    Checkbox: checkboxTheme,
   },
   fonts: {
     body: "Lato, sans-serif",
@@ -143,6 +152,15 @@ const theme = extendTheme({
     topbar:'4.5rem',
     sidebar:'7.1875rem',
     nextSidebar: 'calc(100% - 7.1875rem)',
+    chatList: '22.4375rem',
+    chatWindow: 'calc(100% - 22.4375rem)',
+    chatDetail: '14.9375rem',
+    chatWindowOnly: 'calc(100% - 14.9375rem)',
+    chatContainer: 'calc(100% - 8.5rem)',
+    filterMenu: '12.3125rem',
+    filterMenuMin: '12.3125rem',
+    chatOnly: 'calc(100% - 4rem)',
+    maxChatLabel: 'calc(100% - 0.75rem)',
     full: '100%',
     half: '50%',
     fullHeight: '100vh',
