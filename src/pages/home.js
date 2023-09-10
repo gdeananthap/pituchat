@@ -254,7 +254,7 @@ export default function Home() {
                 />
               </Flex>
             </Flex>
-            <Flex w='full' h='chatContainer' backgroundColor='blue.surface'>
+            <Flex w='full' h='chatContainer' backgroundColor='blue.surface' direction='column' align='flex-end' pl='12' pr='10'>
 
             </Flex >
             <Flex w='full' h='16' backgroundColor='white' align='center' gap='2.5' px='0.375rem'>

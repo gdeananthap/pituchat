@@ -5,13 +5,27 @@ import { IoChevronDownOutline } from "react-icons/io5";
 import { BiMessageSquareDots, BiSolidMessageSquareDots, BiSolidStoreAlt, BiStoreAlt } from "react-icons/bi";
 import { MdLogout } from "react-icons/md";
 import Selector from '../component/selector';
+
 export default function Layout() {
   const location = useLocation()
   const navigate = useNavigate()
   const [menu, setMenu] = useState('/')
+
   useEffect(() => {
     location && location.pathname? setMenu(location.pathname) : setMenu('/')
   }, [location]);
+
+  useEffect(() => {
+    const userId = localStorage.getItem('userId')
+    if(!userId) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
+  const logout = () =>  {
+    localStorage.removeItem('userId')
+    navigate('/login')
+  }
 
   return (
     <Container h='fullHeight' maxW='container.3xl' bg='blue.surface' padding='0'>
@@ -82,7 +96,7 @@ export default function Layout() {
             justify='center'
             align='center'
             gap='2'
-            onClick={() => navigate('/login')}
+            onClick={() => logout()}
             cursor='pointer'
           >
             <Icon as={ MdLogout } w={5} h={5} color='blue.main'/>
