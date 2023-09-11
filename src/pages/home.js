@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Box, Center, Checkbox, Circle, Flex, HStack, Icon, IconButton, Image, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList, Tab, TabList, TabPanel, TabPanels, Tabs, Text, } from '@chakra-ui/react'
 import Tag from '../component/tag';
 import { BiSearch, BiSlider } from "react-icons/bi";
+import { FaCheck} from "react-icons/fa";
 import { MdInfoOutline, MdClose } from "react-icons/md";
 import { CgAttachment } from "react-icons/cg";
 import { allChat, needToReply, replied } from '../data/chat';
-import { getChatById } from '../data/chatDetail';
+import { getChatById } from '../data/chat';
 import { convertDate } from '../utils/convertDate';
 
 export default function Home() {
@@ -23,6 +24,8 @@ export default function Home() {
   const [userId, setUserId] = useState(null)
   const [showSearchChat, setShowSearchChat] = useState(false)
   const [selectedFilter, setSelectedFilter] = useState([]);
+
+  const chatOptions = [needToReply, replied, allChat]
 
   const toggleShowSearchChat = () => {
     setShowSearchChat(!showSearchChat)
@@ -46,7 +49,7 @@ export default function Home() {
 
   const selectChat = (id) => {
     setSelectedChat(id)
-    setChatDetail(getChatById(id))
+    setChatDetail(getChatById(id, chats))
     setShowChatDetail(false)
   };
 
@@ -54,18 +57,16 @@ export default function Home() {
     setTabIndex(id)
     setSelectedChat(null)
     setChatDetail(null)
-    if(id===0){
-      setChats(needToReply)
-    }else if(id===1){
-      setChats(replied)
-    }else{
-      setChats(allChat)
-    }
+    setChats(chatOptions[id])
   };
 
   const countUnreadMessages = (messages) => {
     return messages.reduce((totalUnread, message) => totalUnread + message.unread, 0);
   };
+
+  const isOutboundChat = (chat) => {
+    return chat.id === userId
+  }
 
   useEffect(() => {
     const userId = localStorage.getItem('userId')
@@ -110,13 +111,7 @@ export default function Home() {
                 as={IconButton}
                 aria-label='Options'
                 icon={
-                  <IconButton
-                    aria-label='filter'
-                    backgroundColor='transparent'
-                    _hover={{backgroundColor:'transparent'}}
-                    _active={{backgroundColor:'transparent'}}
-                    icon={<Icon as={BiSlider} w={5} h={5} color='text.subdued' />}
-                  />
+                  <Icon as={BiSlider} w={5} h={5} color='text.subdued' />
                 }
                 backgroundColor='transparent'
                 _hover={{backgroundColor:'transparent'}}
@@ -215,15 +210,18 @@ export default function Home() {
                         <Text fontSize='sm' fontWeight='bold' color='text.main' flex='1' maxW='maxChatLabel' noOfLines={1}>{chat.user.name}</Text>
                         <Text fontSize='2xs' fontWeight='medium' color='text.subdued'>{chat.time}</Text>
                       </Flex>
-                      <Flex w='full' align='center' gap='3' >
-                        <Text fontSize='xs' fontWeight='normal' color='text.subdued' flex='1' maxW='maxChatLabel' noOfLines={1}>{chat.preview}</Text>
+                      <Flex w='full' align='center' gap='1' >
+                        { isOutboundChat(chat.chats[chat.chats.length-1]) &&
+                          <Icon as={FaCheck} w={3} h={3} color='text.subdued' />
+                        }
+                        <Text fontSize='xs' fontWeight='normal' color='text.subdued' flex='1' maxW='maxChatLabel' noOfLines={1}>{chat.chats[chat.chats.length-1].chat}</Text>
                         { chat.unread > 0 &&
-                          <Center h='5' px='0.4375rem' bg={tabIndex === 0? 'blue.main' : 'text.subdued'} color='white' borderRadius='0.625rem'>
+                          <Center h='5' px='0.4375rem' bg={tabIndex === 0? 'blue.main' : 'text.subdued'} color='white' borderRadius='0.625rem' ml='2'>
                             <Text fontSize='2xs' fontWeight='normal' color='white'>{chat.unread}</Text>
                           </Center>
                         }
                       </Flex>
-                      <Tag icon={chat.shop.icon} tag={chat.shop.tag}></Tag>
+                      <Tag icon={chat.user.shop.icon} tag={chat.user.tag}></Tag>
                     </Flex>
                   </Flex>
                 ))}
@@ -263,14 +261,14 @@ export default function Home() {
               {chatDetail.chats.map((chat, index) => (
                 <>
                 { chat.id === userId ? 
-                  <Flex w='half' alignSelf='flex-end' align='flex-end' justify='flex-end' gap='0.5' direction='column'>
+                  <Flex key={index} w='half' alignSelf='flex-end' align='flex-end' justify='flex-end' gap='0.5' direction='column'>
                     <Box minW='17.75rem' px='3' py='2.5' bgColor='blue.main' borderRadius='1.5rem 1.5rem 0 1.5rem'>
                       <Text fontSize='sm' fontWeight='normal' color='white'>{chat.chat}</Text>
                     </Box>
                     <Text fontSize='xs' fontWeight='normal' color='zendesk.lightOnBackgroundDetail' mr='3'>{chat.detail}</Text>
                   </Flex>
                   :
-                  <Flex w='half' alignSelf='flex-start' align='flex-start' justify='flex-start' gap='0.5' direction='column'>
+                  <Flex key={index} w='half' alignSelf='flex-start' align='flex-start' justify='flex-start' gap='0.5' direction='column'>
                     <Text fontSize='xs' fontWeight='normal' color='zendesk.lightOnBackgroundDetail' ml='12'>{chatDetail.user.name}</Text>
                     <Flex w='full' gap='1'>
                       <Image
