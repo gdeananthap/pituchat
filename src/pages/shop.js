@@ -1,8 +1,8 @@
 import React from 'react'
-import { Button, Flex, Icon, Image, SimpleGrid, Text, } from '@chakra-ui/react'
-import { BiCheck, BiPlus } from "react-icons/bi";
+import { Button, Flex, Icon, SimpleGrid, Text, } from '@chakra-ui/react'
+import { BiPlus } from "react-icons/bi";
 import { shopList } from '../data/shop';
-import Tag from '../component/tag';
+import ShopItem from '../component/shopItem';
 
 export default function Shop() {
   return (
@@ -17,33 +17,7 @@ export default function Shop() {
       <Text fontSize='md' fontWeight='bold' color='text.main'>Shop</Text>
       <SimpleGrid columns={[1, 2, null, 3, 6]} spacing={6}>
         { shopList.map((shop, index) => (
-          <Flex
-            key={index}
-            w='full'
-            h='12.75rem'
-            direction='column'
-            gap='6'
-            padding='6'
-            backgroundColor='white'
-            borderRadius='0.5rem'
-            align='center'
-            justify='center'
-          >
-            <Image h='10' src={shop.icon.large}></Image>
-            <Tag icon={shop.icon.small} tag={shop.tag}></Tag>
-            <Flex
-              h='12'
-              w='full'
-              bgColor='blue.main40'
-              gap='2'
-              borderRadius='0.5rem'
-              align='center'
-              justify='center'
-            >
-              <Icon as={BiCheck} w={6} h={6} color='white' />
-              <Text fontSize='sm' fontWeight='normal' color='white'>Tersambung</Text>
-            </Flex>
-          </Flex>
+          <ShopItem key={index} shop={shop} />
         ))}
         <Flex
           w='full'
